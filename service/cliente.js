@@ -1,18 +1,18 @@
-const connectDB = require("../config/db");
+const dbInstance = require("../config/db");
 
-class AgregarCliente {
+class ClienteRepo {
   static async agregar(cliente) {
-    const db = await connectDB();
+    const db = await dbInstance.connect();
     await db.collection("cliente").insertOne(cliente);
   }
 
   static async ListarClientes() {
-    const db = await connectDB();
+    const db = await dbInstance.connect();
     return await db.collection("cliente").find().toArray();
   }
 
   static async ActualizarCliente(cedula, nuevosDatos) {
-    const db = await connectDB();
+    const db = await dbInstance.connect();
     await db.collection("cliente").updateOne(
       { cedula },
       { $set: nuevosDatos }
@@ -20,16 +20,17 @@ class AgregarCliente {
   }
 
   static async EliminarCliente(cedula) {
-    const db = await connectDB();
+    const db = await dbInstance.connect();
     await db.collection("cliente").deleteOne({ cedula });
   }
 
   static async existe(cedula) {
-    const db = await connectDB();
+    const db = await dbInstance.connect();
     const cliente = await db.collection("cliente").findOne({ cedula });
     return !!cliente;
   }
 }
 
-module.exports = AgregarCliente;
+module.exports = ClienteRepo;
+
 // v

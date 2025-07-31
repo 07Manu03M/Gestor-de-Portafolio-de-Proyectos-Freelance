@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const ClienteRepo = require("../service/cliente");
-const Cliente = require("../models/client");
+const ClienteFactory = require("../factories/ClienteFactory");
 
 class GestionClientes {
   static async pedirDatosCliente() {
@@ -37,7 +37,7 @@ class GestionClientes {
         case "Agregar un cliente":
           try {
             const data = await this.pedirDatosCliente();
-            const cliente = new Cliente(data);
+            const cliente = ClienteFactory.crearCliente(data);
             const existe = await ClienteRepo.existe(cliente.cedula);
 
             if (existe) {
@@ -68,7 +68,8 @@ class GestionClientes {
           }
 
           const nuevosDatos = await this.pedirDatosCliente();
-          const clienteActualizado = new Cliente(nuevosDatos);
+          const clienteActualizado = ClienteFactory.crearCliente(nuevosDatos);
+
           await ClienteRepo.ActualizarCliente(cedula, clienteActualizado);
           console.log("Cliente actualizado");
           break;
@@ -93,6 +94,6 @@ class GestionClientes {
       }
     }
   }
-}// v
+}
 
 module.exports = GestionClientes;

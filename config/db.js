@@ -1,14 +1,21 @@
-const { url } = require("inspector");
 const { MongoClient } = require("mongodb");
 
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
+class Database {
+  static instance;
 
-async function connectDB() {
-  const client = await MongoClient.connect(uri); // se conecta
-  return client.db("freelance"); // puedes llamarla "freelance"
+  constructor(){
+    this.uri = "mongodb://localhost:27017";
+    this.dbname = "freelance";
+    this.client = new MongoClient(this.uri);
+  }
+
+  async connect(){
+    if(!Database.instance){
+      await this.client.connect();
+      Database.instance = this.client.db(this.dbname);
+    }
+    return Database.instance;
+  }
 }
 
-module.exports = connectDB;
-
-// v
+module.exports = new Database
