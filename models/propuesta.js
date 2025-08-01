@@ -15,10 +15,10 @@ class Propuesta {
     }
 
     validar() {
-        if (!this.idpropuesta || typeof this.idpropuesta !== "string") {
-            throw new Error("La id es obligatoria y debe ser texto.");
+        if (!this.idpropuesta || typeof this.idpropuesta !== "number") {
+            throw new Error("La id es obligatoria y debe ser numero.");
         }
-        if (this.descripcion || typeof this.descripcion !== "string") {
+        if (!this.descripcion || typeof this.descripcion !== "string") {
             throw new Error("La descripción es obligatoria porfavor ingresa la descripcion")
         }
         if (!this.descripcion || this.descripcion.length < 10) {
