@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const PropuestaRepo = require("../service/propuesta")
 const PropuestaFactory = require("../factories/PropuestaFactory");
+const ClienteRepo = require("../service/cliente");
 
 
 class GestionPropuestas {
@@ -25,6 +26,9 @@ class GestionPropuestas {
                     message: "Selecciona una opcion",
                     choices: [
                         "Agregar Una Propuesta",
+                        "Ver Lista Propuestas",
+                        "Actualizar Propuesta",
+                        "Eliminar Propuesta",
                         "Retroceder"
                     ]
                 }
@@ -54,6 +58,56 @@ class GestionPropuestas {
                     } catch (error) {
                         console.log("error", error.message);
                     }
+                    break;
+
+                case "Ver Lista Propuestas":
+                    const propuestalist = await PropuestaRepo.ListarPropuestas();
+                    console.log(propuestalist);
+                    await inquirer.prompt([{ type: "input", name: "continuar", message: "Presiona Enter para volver...." }]);
+                    break;
+
+                case "Actualizar Propuesta":
+                    const { idpropuesta } = await inquirer.prompt([
+                        { type: "input", name: "idpropuesta", message: "ID a actualizar: " }
+                    ]);
+
+                    const existeActualizar = await PropuestaRepo.existe(parseInt(idpropuesta));
+
+                    if (!existeActualizar) {
+                        console.log("No existe ninguna propuesta con ese ID.");
+                        break;
+                    }
+
+                    const nuevosDatos = await this.pedirDatosPropuesta();
+
+                    // 👇 Conversión de tipos aquí (muy importante)
+                    nuevosDatos.idpropuesta = parseInt(nuevosDatos.idpropuesta);
+                    nuevosDatos.precio = parseFloat(nuevosDatos.precio);
+                    nuevosDatos.plazoDias = parseInt(nuevosDatos.plazoDias);
+                    nuevosDatos.estado = nuevosDatos.estado.toLowerCase();
+
+                    const propuestaActualizada = PropuestaFactory.crearPropuesta(nuevosDatos);
+
+                    await PropuestaRepo.ActualizarPropuesta(nuevosDatos.idpropuesta, propuestaActualizada);
+                    console.log("Propuesta Actualizada");
+                    break;
+
+                case "Eliminar Propuesta":
+                    const { idEliminar } = await inquirer.prompt([
+                        { type: "input", name: "idEliminar", message: "Id a Eliminar" }
+                    ]);
+
+                    const idEliminarNum = parseInt(idEliminar);
+
+                    const existeEliminar = await PropuestaRepo.existe(idEliminarNum);
+                    if (!existeEliminar) {
+                        console.log("No existe ninguna propuesta con ese id");
+                        break;
+                    }
+
+                    await PropuestaRepo.EliminarPropuesta(idEliminarNum);
+                    console.log("Propuesta Eliminada");
+                    break;
 
 
                 case "Retroceder":
