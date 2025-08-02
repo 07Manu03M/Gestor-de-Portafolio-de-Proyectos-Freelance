@@ -2,7 +2,7 @@ const Proyecto = require("../models/Proyect");
 
 class ProyectFactory {
     static crearProyecto(data){
-        return new Proyecto(data)
+        return new Proyecto(data);
     }
 }
 

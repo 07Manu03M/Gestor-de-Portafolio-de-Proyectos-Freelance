@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const GestionClientes = require("./comands/gestionClientes");
 const GestionPropuestas = require("./comands/gestionsPropuestas");
+const GestionProyectos = require("./comands/gestionProyectos");
 
 class App {
   static async main() {
@@ -15,6 +16,7 @@ class App {
           choices: [
             "Gestión de Clientes",
             "Gestion de Propuestas",
+            "Gestion de Proyectos",
             "Salir"
           ]
         }
@@ -27,6 +29,10 @@ class App {
 
         case "Gestion de Propuestas":
           await GestionPropuestas.menu();
+          break;
+
+        case "Gestion de Proyectos":
+          await GestionProyectos.menu();
           break;
 
         case "Salir":
