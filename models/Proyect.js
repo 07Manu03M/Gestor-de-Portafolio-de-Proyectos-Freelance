@@ -1,7 +1,7 @@
 const prompt = require("prompt-sync")();
 
 class Proyecto {
-    constructor({ idproyecto, nombre, descripcion, cedulacliente, idpropuesta, estado, fechaInicio, fechaFin, valorTotal, Avance }) {
+    constructor({ idproyecto, nombre, descripcion, cedulacliente, idpropuesta, estado, fechaInicio, fechaFin, valorTotal, progreso }) {
         this.idproyecto = idproyecto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -11,7 +11,7 @@ class Proyecto {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.valorTotal = valorTotal;
-        this.Avance = Avance;
+        this.progreso = progreso;
 
         this.validar();
     }
@@ -27,9 +27,6 @@ class Proyecto {
         if (!this.nombre || typeof this.nombre !== "string") {
             throw new Error("El nombre es obligatorio.");
         }
-        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,}$/.test(this.nombre)) {
-            throw new Error("El nombre debe tener solo letras y mínimo 2 caracteres.");
-        }
 
         if (!this.descripcion || typeof this.descripcion !== "string" || this.descripcion.length < 15) {
             throw new Error("La descripción debe ser texto y tener al menos 15 caracteres.");
@@ -44,7 +41,7 @@ class Proyecto {
             throw new Error("El valor total debe ser un número mayor que 0.");
         }
 
-        if (typeof this.Avance !== "number" || this.Avance < 0 || this.Avance > 100) {
+        if (typeof this.progreso !== "number" || this.Avance < 0 || this.progreso > 100) {
             throw new Error("El avance debe ser un número entre 0 y 100.");
         }
     }

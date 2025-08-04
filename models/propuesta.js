@@ -1,9 +1,10 @@
 const prompt = require("prompt-sync")();
 
 class Propuesta {
-    constructor({ idpropuesta, cedulaCliente, descripcion, precio, plazoDias, estado, fechaCreacion }) {
+    constructor({ idpropuesta, cedulaCliente, nombre, descripcion, precio, plazoDias, estado, fechaCreacion }) {
         this.idpropuesta = idpropuesta;
         this.cedulaCliente = cedulaCliente;
+        this.nombre = nombre
         this.descripcion = descripcion;
         this.precio = precio;
         this.plazoDias = plazoDias;
@@ -20,6 +21,9 @@ class Propuesta {
         }
         if (!this.descripcion || typeof this.descripcion !== "string") {
             throw new Error("La descripción es obligatoria porfavor ingresa la descripcion")
+        }
+        if (!this.nombre || typeof this.nombre !== "string") {
+            throw new Error("El nombre es obligatorio porfavor ingrese uno")
         }
         if (!this.descripcion || this.descripcion.length < 10) {
             throw new Error("La descripcion debe ser solo texto y tener almenos 15 caracteres")

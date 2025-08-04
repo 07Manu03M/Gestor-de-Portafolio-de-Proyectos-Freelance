@@ -14,7 +14,7 @@ class Cliente {
 
     validar() {
         if (!this.cedula || typeof this.cedula !== "string") {
-            throw new Error("La cédula es obligatoria y debe ser texto.");
+            throw new Error("La cédula es obligatoria.");
         }
 
         if (!/^\d{6,12}$/.test(this.cedula)) {
