@@ -5,6 +5,7 @@ const GestionProyectos = require("./comands/gestionProyectos");
 const GestionContratos = require("./comands/gestionContratos");
 const GestionAvances = require("./comands/gestionAvances");
 const GestionFinanzas = require('./comands/gestionFinanzas');
+const GestionDatosCompletos = require("./comands/gestionDatoscompletos");
 
 
 
@@ -25,6 +26,7 @@ class App {
             "Gestion de Contratos",
             "Gestion de Avances",
             "Gestion financiera",
+            "Informacion General",
             "Salir"
           ]
         }
@@ -53,6 +55,10 @@ class App {
 
         case "Gestion financiera":
           await GestionFinanzas.menu();
+          break;
+
+        case "Informacion General":
+          await GestionDatosCompletos.menu();
           break;
 
         case "Salir":
